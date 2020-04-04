@@ -1,27 +1,24 @@
 import React, { Component } from "react";
 import "./App.css";
 import Navbar from "../src/components/Navbar";
-import UserItem from "./components/users/UserItem";
 import Users from "./components/users/Users";
+import axios from "axios";
 class App extends Component {
-  foo = () => {
-    return <p>Method Example</p>;
+  state = {
+    users: [],
+    loading: false,
   };
-
+  async componentDidMount() {
+    this.setState({ loading: true });
+    const res = await axios.get("https://api.github.com/users");
+    this.setState({ users: res.data, loading: false });
+  }
   render() {
-    const name = "John Doe";
-    const foo = () => {
-      return <p>Function Example</p>;
-    };
     return (
       <div className="App">
         <Navbar title="Gihub Finder" />
-        <h1>Hello {name.toUpperCase()}</h1>
-        {this.foo()}
-        {foo()}
-        <UserItem />
         <div className="container">
-          <Users />
+          <Users loading={this.state.loading} users={this.state.users} />
         </div>
       </div>
     );
