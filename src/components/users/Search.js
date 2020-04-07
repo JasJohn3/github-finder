@@ -5,11 +5,13 @@ class Search extends Component {
     text: "",
   };
   onChange = (e) => {
+    //e.target.name allows access to the input box name creating a variable based on the type of input.
     this.setState({ [e.target.name]: e.target.value });
   };
   onSubmit = (e) => {
     e.preventDefault();
-    console.log(this.state.text);
+    this.props.searchUsers(this.state.text);
+    this.setState({ text: "" });
   };
   render() {
     return (
