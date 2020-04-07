@@ -7,6 +7,8 @@ const Users = (props) => {
     return <Spinner />;
   } else {
     return (
+      //program contained an error when passing array values so I manually extracted
+      //and created prop types for each value being searched.[key={user.id},login={user.login},avatar={user.avatar_url},html_url={user.html_url}]
       <div style={userStyle}>
         {props.users.map((user) => (
           <UserItem

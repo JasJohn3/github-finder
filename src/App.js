@@ -14,8 +14,12 @@ class App extends Component {
   searchUsers = async (text) => {
     this.setState({ loading: true });
     const res = await axios.get(
+      //q=${text}& this is the search function for the githubAPI[Reference: https://developer.github.com/v3/search/#search-repositories].
+      //&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET} these are the OAUTH key values
       `https://api.github.com/search/users?q=${text}&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
     );
+    //Here we use setState to allow our users array created in state to be equal to the reqest: res.data.items, a formatted json string containing our required values.
+    //Set loading to false for a successful completion of our query.
     this.setState({ users: res.data.items, loading: false });
   };
   render() {
