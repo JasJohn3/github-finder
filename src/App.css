@@ -112,7 +112,7 @@ img {
 /* Cards */
 .card {
   padding: 1rem;
-  border: #ccc 1px dotted;
+  border: #ccc 1px solid;
   margin: 0.7rem 0;
 }
 
@@ -411,4 +411,11 @@ table th {
     text-align: center;
     justify-content: center;
   }
+}
+.flex {
+  display: flex;
+  flex: 1;
+}
+.flex-row {
+  flex-direction: row;
 }

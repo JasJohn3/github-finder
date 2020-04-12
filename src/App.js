@@ -12,6 +12,7 @@ import About from "./components/pages/About";
 class App extends Component {
   state = {
     users: [],
+    repos: [],
     user: {},
     loading: false,
     alert: null,
@@ -45,6 +46,18 @@ class App extends Component {
     //Set loading to false for a successful completion of our query.
     this.setState({ user: res.data, loading: false });
   };
+  //Get Users Repos
+  getUserRepos = async (username) => {
+    this.setState({ loading: true });
+    const res = await axios.get(
+      //q=${text}& this is the search function for the githubAPI[Reference: https://developer.github.com/v3/search/#search-repositories].
+      //&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET} these are the OAUTH key values
+      `https://api.github.com/users/${username}/repos?per_page=5&sort=created:asc&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
+    );
+    //Here we use setState to allow our users array created in state to be equal to the reqest: res.data.items, a formatted json string containing our required values.
+    //Set loading to false for a successful completion of our query.
+    this.setState({ repos: res.data, loading: false });
+  };
   //Clear Users
   clearUsers = () => this.setState({ users: [], loading: false });
   //Alert
@@ -54,7 +67,7 @@ class App extends Component {
     setTimeout(() => this.setState({ alert: null }), 5000);
   };
   render() {
-    const { users, loading, user } = this.state;
+    const { users, loading, user, repos } = this.state;
     return (
       <Router>
         <div className="App">
@@ -85,7 +98,9 @@ class App extends Component {
                   <User
                     {...props}
                     getUser={this.getUser}
+                    getUserRepos={this.getUserRepos}
                     user={user}
+                    repos={repos}
                     loading={loading}
                   />
                 )}
