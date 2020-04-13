@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const UserItem = (props) => {
   //destructuring Method to access variables from the state
-  const { login, html_url, avatar } = props;
+  const { login, avatar } = props;
   return (
     <div className="card text-center">
       <img

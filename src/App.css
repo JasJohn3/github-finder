@@ -24,7 +24,7 @@ body {
 }
 
 a {
-  color: var(--primary-color);
+  color: var(--light-color);
   text-decoration: none;
 }
 
