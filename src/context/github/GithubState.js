@@ -37,12 +37,40 @@ const GithubState = (props) => {
       payload: res.data.items,
     });
   };
-  //Get User
+  //Get a single Github User
+  const getUser = async (username) => {
+    setLoading();
+    const res = await axios.get(
+      //q=${text}& this is the search function for the githubAPI[Reference: https://developer.github.com/v3/search/#search-repositories].
+      //&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET} these are the OAUTH key values
+      `https://api.github.com/users/${username}?&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
+    );
+    //Here we use setState to allow our users array created in state to be equal to the reqest: res.data.items, a formatted json string containing our required values.
+    //Set loading to false for a successful completion of our query.
+    dispatch({
+      type: GET_USER,
+      payload: res.data,
+    });
+  };
 
   //Get Repos
+  const getUserRepos = async (username) => {
+    setLoading();
+    const res = await axios.get(
+      //q=${text}& this is the search function for the githubAPI[Reference: https://developer.github.com/v3/search/#search-repositories].
+      //&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET} these are the OAUTH key values
+      `https://api.github.com/users/${username}/repos?per_page=5&sort=created:asc&client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`
+    );
+    //Here we use setState to allow our users array created in state to be equal to the reqest: res.data.items, a formatted json string containing our required values.
+    //Set loading to false for a successful completion of our query.
+    dispatch({
+      type: GET_REPOS,
+      payload: res.data,
+    });
+  };
 
   //Clear Users
-
+  const clearUsers = () => dispatch({ type: CLEAR_USERS });
   //Set Loading
 
   return (
@@ -53,6 +81,9 @@ const GithubState = (props) => {
         repos: state.repos,
         loading: state.loading,
         searchUsers,
+        clearUsers,
+        getUser,
+        getUserRepos,
       }}
     >
       {props.children}
